@@ -1,25 +1,73 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { ApikitTreeDataProvider } from './api-kit-tree-data-provider';
+import { apiManager } from './api-manager';
+import { setup } from './commands';
+import { EolinkerApiTextDocumentContentProvider } from './eolinker-api-text-document-content-provider';
+import {
+  formatSourceCode,
+  generateCode,
+  insertSourceCode,
+} from './source-generator';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  context.subscriptions.push(
+    vscode.workspace.registerTextDocumentContentProvider(
+      EolinkerApiTextDocumentContentProvider.schema,
+      new EolinkerApiTextDocumentContentProvider(),
+    ),
+  );
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "vscode-eolinker" is now active!');
+  const tree = new ApikitTreeDataProvider(context);
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('vscode-eolinker.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from vscode-eolinker!');
-	});
+  context.subscriptions.push(
+    vscode.window.registerTreeDataProvider('eolinkApikitExplorer', tree),
+  );
 
-	context.subscriptions.push(disposable);
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'eolinkApikitExplorer.generateType',
+      async (apiId: number) => {
+        const data = await apiManager.getApiInfo(apiId);
+
+        const uri = vscode.Uri.parse(
+          `${EolinkerApiTextDocumentContentProvider.schema}:api.d.ts`,
+        );
+
+        const isNewDoc = vscode.workspace.textDocuments.every(
+          (doc) => doc.fileName !== uri.path,
+        );
+
+        const doc = await vscode.workspace.openTextDocument(uri);
+
+        const sourceCode = await generateCode(data.api_info);
+
+        insertSourceCode(uri, doc, sourceCode);
+        formatSourceCode(uri);
+
+        const currentDoc = vscode.window.activeTextEditor;
+
+        vscode.window.showTextDocument(doc, {
+          preview: true,
+          viewColumn:
+            currentDoc === void 0
+              ? vscode.ViewColumn.Active
+              : isNewDoc
+                ? vscode.ViewColumn.Beside
+                : vscode.ViewColumn.Active,
+        });
+      },
+    ),
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('eolinkApikitExplorer.setup', setup),
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('eolinkApikitExplorer.refresh', () => {
+      tree.refresh();
+    }),
+  );
 }
 
 // This method is called when your extension is deactivated
