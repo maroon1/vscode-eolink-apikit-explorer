@@ -1,4 +1,13 @@
-import * as vscode from 'vscode';
+import {
+  Event,
+  EventEmitter,
+  ExtensionContext,
+  ProviderResult,
+  TreeDataProvider,
+  TreeItem,
+  window,
+  workspace,
+} from 'vscode';
 import { z } from 'zod';
 import { apiManager } from './api-manager';
 import { ApiGroupItem, ApiListItem } from './api-types';
@@ -13,25 +22,23 @@ export const apiSettingsSchema = z.object({
   projectId: z.string(),
 });
 
-export class ApikitTreeDataProvider
-  implements vscode.TreeDataProvider<TreeNode>
-{
+export class ApikitTreeDataProvider implements TreeDataProvider<TreeNode> {
   #apiSubGroupMap = new Map<number, ApiGroupTreeNode[]>();
 
   #apiGroupMap = new Map<number, ApiGroupTreeNode>();
 
   #apiMap = new Map<number, ApiTreeNode[]>();
 
-  #onDidChangeTreeData: vscode.EventEmitter<TreeNode | undefined | void> =
-    new vscode.EventEmitter<TreeNode | undefined | void>();
+  #onDidChangeTreeData: EventEmitter<TreeNode | undefined | void> =
+    new EventEmitter<TreeNode | undefined | void>();
 
   onDidChangeTreeData?:
-    | vscode.Event<void | TreeNode | TreeNode[] | null | undefined>
+    | Event<void | TreeNode | TreeNode[] | null | undefined>
     | undefined = this.#onDidChangeTreeData.event;
 
-  constructor(context: vscode.ExtensionContext) {
+  constructor(context: ExtensionContext) {
     context.subscriptions.push(
-      vscode.workspace.onDidChangeConfiguration((e) => {
+      workspace.onDidChangeConfiguration((e) => {
         if (!e.affectsConfiguration('eolinkApikitExplorer.settings')) {
           return;
         }
@@ -45,7 +52,7 @@ export class ApikitTreeDataProvider
     this.#onDidChangeTreeData.fire();
   }
 
-  getTreeItem(element: TreeNode): vscode.TreeItem | Thenable<vscode.TreeItem> {
+  getTreeItem(element: TreeNode): TreeItem | Thenable<TreeItem> {
     return element.type === 'group'
       ? new ApiGroupTreeItem(element)
       : new ApiTreeItem(element);
@@ -77,9 +84,9 @@ export class ApikitTreeDataProvider
             this.#apiMap = this.#toApiGroupMap(list);
           } catch (error) {
             if (error instanceof Error) {
-              vscode.window.showErrorMessage(error.message);
+              window.showErrorMessage(error.message);
             } else {
-              vscode.window.showErrorMessage('发生未知的错误');
+              window.showErrorMessage('发生未知的错误');
             }
 
             return [];
@@ -93,8 +100,12 @@ export class ApikitTreeDataProvider
     return this.#apiSubGroupMap.get(element.id) ?? [];
   }
 
-  getParent?(element: TreeNode): vscode.ProviderResult<TreeNode> {
-    return this.#apiGroupMap.get(element.group_id);
+  getParent?(element: TreeNode): ProviderResult<TreeNode> {
+    const group = this.#apiGroupMap.get(
+      element.type === 'api' ? element.group_id : element.parent_group_id,
+    );
+
+    return group;
   }
 
   *#toGroupList(

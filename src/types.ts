@@ -1,3 +1,4 @@
+import { QuickPickItem } from 'vscode';
 import { ApiListItem } from './api-types';
 
 export interface BaseTreeNode {
@@ -36,4 +37,8 @@ export interface ApiSettings {
   workspaceId?: string;
 
   projectId?: string;
+}
+
+export interface ApiQuickPickItem extends QuickPickItem {
+  api: ApiListItem;
 }
