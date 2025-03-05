@@ -1,14 +1,16 @@
 import {
   commands,
   ExtensionContext,
+  languages,
   Uri,
   ViewColumn,
   window,
   workspace,
 } from 'vscode';
+import { ApikitCodeLensProvider } from './api-kit-codelens-provider';
 import { ApikitTreeDataProvider } from './api-kit-tree-data-provider';
 import { apiManager } from './api-manager';
-import { registerSearchCommand, setup } from './commands';
+import { copy, registerSearchCommand, setup } from './commands';
 import { EolinkerApiTextDocumentContentProvider } from './eolinker-api-text-document-content-provider';
 import {
   formatSourceCode,
@@ -32,6 +34,13 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(
     window.registerTreeDataProvider('eolinkApikitExplorer', tree),
+  );
+
+  context.subscriptions.push(
+    languages.registerCodeLensProvider(
+      { scheme: EolinkerApiTextDocumentContentProvider.schema },
+      new ApikitCodeLensProvider(),
+    ),
   );
 
   context.subscriptions.push(
@@ -80,6 +89,10 @@ export function activate(context: ExtensionContext) {
     commands.registerCommand('eolinkApikitExplorer.refresh', () => {
       tree.refresh();
     }),
+  );
+
+  context.subscriptions.push(
+    commands.registerCommand('eolinkApikitExplorer.copy', copy),
   );
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "eolink-apikit-explorer",
   "displayName": "eolink Apikit Explorer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "查看 Apikit API 对应的 TypeScript 类型定义",
   "categories": [
     "Other"
@@ -37,17 +37,27 @@
       {
         "command": "eolinkApikitExplorer.refresh",
         "title": "刷新",
+        "category": "eolink Apikit Explorer",
         "icon": "$(refresh)"
       },
       {
         "command": "eolinkApikitExplorer.setup",
         "title": "设置",
+        "category": "eolink Apikit Explorer",
         "icon": "$(gear)"
       },
       {
         "command": "eolinkApikitExplorer.search",
         "title": "搜索",
+        "category": "eolink Apikit Explorer",
         "icon": "$(search)"
+      },
+      {
+        "command": "eolinkApikitExplorer.copy",
+        "title": "复制代码",
+        "category": "eolink Apikit Explorer",
+        "enablement": "false",
+        "icon": "$(copy)"
       }
     ],
     "configuration": {
@@ -115,7 +125,9 @@
   },
   "activationEvents": [],
   "dependencies": {
+    "@babel/parser": "^7.26.9",
     "axios": "^1.7.9",
+    "clipboardy": "^4.0.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {

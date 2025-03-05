@@ -157,3 +157,11 @@ export function registerSearchCommand(
     commands.registerCommand('eolinkApikitExplorer.search', search),
   );
 }
+
+export function copy(content: string) {
+  import('clipboardy')
+    .then((m) => m.default.writeSync(content))
+    .then(() => {
+      window.showInformationMessage('代码已复制到剪贴板');
+    });
+}
