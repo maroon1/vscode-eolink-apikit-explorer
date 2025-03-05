@@ -36,7 +36,7 @@ class ApiManager {
 
   async getWorkspaces() {
     const { data } = await axios.postForm<ApiWorkspaceResponse>(
-      '/index.php/v2/workspace/workspace/search',
+      'v2/workspace/workspace/search',
     );
 
     throwError(data);
@@ -46,7 +46,7 @@ class ApiManager {
 
   async getProjects(spaceId: string) {
     const { data } = await axios.postForm<ApiProjectResponse>(
-      '/index.php/v2/api_studio/management/project/search',
+      'v2/api_studio/management/project/search',
       {
         space_id: spaceId,
       },
@@ -63,7 +63,7 @@ class ApiManager {
     }
 
     const { data } = await axios.postForm<ApiGroupTreeResponse>(
-      '/index.php/v2/api_studio/management/api/get_group_list',
+      'v2/api_studio/management/api/get_group_list',
       {
         space_id: this.workspaceId,
         project_id: this.projectId,
@@ -83,7 +83,7 @@ class ApiManager {
     }
 
     const { data } = await axios.postForm<ApiListResponse>(
-      '/index.php/v2/api_studio/management/api/search',
+      'v2/api_studio/management/api/search',
       {
         space_id: this.workspaceId,
         project_id: this.projectId,
@@ -99,7 +99,7 @@ class ApiManager {
 
   async getApiInfo(apiId: number) {
     const { data } = await axios.postForm<ApiInfoResponse>(
-      '/index.php/v2/api_studio/management/api/api_info',
+      '/v2/api_studio/management/api/api_info',
       {
         space_id: this?.workspaceId,
         project_id: this?.projectId,
