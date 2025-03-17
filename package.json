@@ -1,7 +1,7 @@
 {
   "name": "eolink-apikit-explorer",
   "displayName": "eolink Apikit Explorer",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "查看 Apikit API 对应的 TypeScript 类型定义",
   "categories": [
     "Other"
@@ -36,25 +36,25 @@
     "commands": [
       {
         "command": "eolinkApikitExplorer.refresh",
-        "title": "刷新",
+        "title": "%command.refresh%",
         "category": "eolink Apikit Explorer",
         "icon": "$(refresh)"
       },
       {
         "command": "eolinkApikitExplorer.setup",
-        "title": "设置",
+        "title": "%command.setup%",
         "category": "eolink Apikit Explorer",
         "icon": "$(gear)"
       },
       {
         "command": "eolinkApikitExplorer.search",
-        "title": "搜索",
+        "title": "%command.search%",
         "category": "eolink Apikit Explorer",
         "icon": "$(search)"
       },
       {
         "command": "eolinkApikitExplorer.copy",
-        "title": "复制代码",
+        "title": "%command.copy%",
         "category": "eolink Apikit Explorer",
         "enablement": "false",
         "icon": "$(copy)"
@@ -66,23 +66,23 @@
       "properties": {
         "eolinkApikitExplorer.settings": {
           "type": "object",
-          "description": "设置项",
+          "description": "%settings%",
           "properties": {
             "origin": {
               "type": "string",
-              "description": "Eolinker URL"
+              "description": "%settings.description%"
             },
             "apiKey": {
               "type": "string",
-              "description": "个人访问令牌"
+              "description": "%settings.apiKey%"
             },
             "workspaceId": {
               "type": "string",
-              "description": "工作空间 ID"
+              "description": "%settings.workspaceId%"
             },
             "projectId": {
               "type": "string",
-              "description": "项目 ID"
+              "description": "%settings.projectId%"
             }
           }
         }

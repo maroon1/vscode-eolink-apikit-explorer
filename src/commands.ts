@@ -19,8 +19,8 @@ export async function setup() {
 
   const origin = await window.showInputBox({
     ignoreFocusOut: true,
-    title: 'Eolinker URL',
-    prompt: '请输入 Eolinker 实例的 URL',
+    title: 'Eolink Apikit API URL',
+    prompt: '请输入 Eolink Apikit API URL',
     value: settings?.origin,
     valueSelection: [0, settings?.origin?.length ?? 0],
     validateInput: (value) => {
@@ -41,6 +41,7 @@ export async function setup() {
     title: '个人访问令牌',
     prompt: '请输入 ApiKit OpenAPI 的个人访问令牌',
     value: settings?.apiKey,
+    password: true,
     valueSelection: [0, settings?.apiKey?.length ?? 0],
   });
 

@@ -5,10 +5,10 @@ import {
   Uri,
 } from 'vscode';
 
-export class EolinkerApiTextDocumentContentProvider
+export class ApikitTextDocumentContentProvider
   implements TextDocumentContentProvider
 {
-  static schema = 'eolinker-api';
+  static schema = 'eolink-apikit-api-info';
 
   onDidChange?: Event<Uri> | undefined;
 

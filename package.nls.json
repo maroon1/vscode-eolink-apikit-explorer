@@ -1,0 +1,11 @@
+{
+  "command.refresh": "Refresh",
+  "command.setup": "Setup",
+  "command.search": "Search",
+  "command.copy": "Copy",
+  "settings": "Settings",
+  "settings.description": "Eolink Apikit API URL",
+  "settings.apiKey": "Personal Access Token",
+  "settings.workspaceId": "Workspace ID",
+  "settings.projectId": "Project ID"
+}

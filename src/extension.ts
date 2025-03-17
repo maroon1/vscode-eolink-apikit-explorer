@@ -7,11 +7,11 @@ import {
   window,
   workspace,
 } from 'vscode';
-import { ApikitCodeLensProvider } from './api-kit-codelens-provider';
-import { ApikitTreeDataProvider } from './api-kit-tree-data-provider';
 import { apiManager } from './api-manager';
+import { ApikitCodeLensProvider } from './apikit-codelens-provider';
+import { ApikitTextDocumentContentProvider } from './apikit-text-document-content-provider';
+import { ApikitTreeDataProvider } from './apikit-tree-data-provider';
 import { copy, registerSearchCommand, setup } from './commands';
-import { EolinkerApiTextDocumentContentProvider } from './eolinker-api-text-document-content-provider';
 import {
   formatSourceCode,
   generateCode,
@@ -21,8 +21,8 @@ import {
 export function activate(context: ExtensionContext) {
   context.subscriptions.push(
     workspace.registerTextDocumentContentProvider(
-      EolinkerApiTextDocumentContentProvider.schema,
-      new EolinkerApiTextDocumentContentProvider(),
+      ApikitTextDocumentContentProvider.schema,
+      new ApikitTextDocumentContentProvider(),
     ),
   );
 
@@ -38,7 +38,7 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(
     languages.registerCodeLensProvider(
-      { scheme: EolinkerApiTextDocumentContentProvider.schema },
+      { scheme: ApikitTextDocumentContentProvider.schema },
       new ApikitCodeLensProvider(),
     ),
   );
@@ -50,7 +50,7 @@ export function activate(context: ExtensionContext) {
         const data = await apiManager.getApiInfo(apiId);
 
         const uri = Uri.parse(
-          `${EolinkerApiTextDocumentContentProvider.schema}:api.d.ts`,
+          `${ApikitTextDocumentContentProvider.schema}:api.d.ts`,
         );
 
         const isNewDoc = workspace.textDocuments.every(

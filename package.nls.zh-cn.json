@@ -1,0 +1,10 @@
+{
+  "command.refresh": "刷新",
+  "command.setup": "设置",
+  "command.search": "搜索",
+  "command.copy": "复制代码",
+  "settings": "设置项",
+  "settings.apiKey": "个人访问令牌",
+  "settings.workspaceId": "工作空间 ID",
+  "settings.projectId": "项目 ID"
+}
