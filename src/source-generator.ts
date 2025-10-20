@@ -84,7 +84,7 @@ function generateParamsDto(params: ApiParamInfo[] | undefined): string {
       return `/**
          * ${item.param_name}
          */
-        ${item.param_key}${item.param_not_null === BooleanNumber.否 ? '?' : ''}: ${type ?? 'unknown'};`;
+        "${item.param_key}"${item.param_not_null === BooleanNumber.否 ? '?' : ''}: ${type ?? 'unknown'};`;
     })
     .join('\n');
 }
