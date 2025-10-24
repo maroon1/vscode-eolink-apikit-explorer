@@ -72,6 +72,8 @@ export class ApikitTreeDataProvider implements TreeDataProvider<TreeNode> {
       const list = [...this.#toGroupList(tree)];
       this.#apiSubGroupMap = this.#toSubGroupMap(list);
       this.#apiGroupMap = this.#toGroupMap(list);
+      // 分组信息变化后，要清除 API 信息，以便后续能够自动重新获取新的 API 列表信息
+      this.#apiMap.clear();
 
       return this.#apiSubGroupMap.get(0) ?? [];
     }

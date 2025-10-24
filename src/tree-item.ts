@@ -6,7 +6,7 @@ export class ApiGroupTreeItem extends TreeItem {
     super(node.name, getCollapsibleState(node));
 
     this.id = getId(node);
-    this.tooltip = 'ok';
+    this.tooltip = node.group_name;
     this.iconPath = ThemeIcon.Folder;
   }
 }
