@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   commands,
+  env,
   ExtensionContext,
   QuickPickItem,
   TreeView,
@@ -160,9 +161,7 @@ export function registerSearchCommand(
 }
 
 export function copy(content: string) {
-  import('clipboardy')
-    .then((m) => m.default.writeSync(content))
-    .then(() => {
-      window.showInformationMessage('代码已复制到剪贴板');
-    });
+  env.clipboard.writeText(content).then(() => {
+    window.showInformationMessage('代码已复制到剪贴板');
+  });
 }
